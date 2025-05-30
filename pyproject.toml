@@ -22,7 +22,7 @@ dependencies = [
 nikke-cjjc-automator = "nikke_cjjc_automator.cli:app"
 
 [tool.pdm.scripts]
-nikke-cjjc-automator-build = "pyinstaller nikke_cjjc_automator/cli.py --onefile --add-data \"settings.toml;.\" --name nikke-cjjc-automator"
+nikke-cjjc-automator-build = "pyinstaller nikke_cjjc_automator/cli.py --onefile --add-data \"settings.default.toml;.\" --name nikke-cjjc-automator"
 
 [build-system]
 requires = ["pdm-backend"]

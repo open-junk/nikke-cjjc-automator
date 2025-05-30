@@ -8,10 +8,11 @@ class ImageStitcher:
         from PIL import Image
         from pathlib import Path
         import logging
-        images = [Image.open(p) for p in image_paths if Path(p).exists()]
-        if not images:
-            logging.error("無有效圖片可拼接")
-            return False
+        # 強制檢查 image_paths 必須有有效圖片，否則直接報錯
+        images = [Image.open(p) for p in image_paths]
+        # 直接使用呼叫端給的 output_path，不再搬移到 result_image
+        output_path = Path(output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         match direction:
             case "vertical":
                 max_width = max(img.width for img in images)

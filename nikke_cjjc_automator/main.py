@@ -69,22 +69,50 @@ class NikkeAutomator:
 
     def _process_player(self: Self, window, player_coord, team_coords, screenshot_region, out_path):
         import time, logging
+        from pathlib import Path
+        c = self.coord
+        s = self.config if hasattr(self, 'config') else __import__('nikke_cjjc_automator.config', fromlist=['settings']).settings
         self.action.click(player_coord, window)
         time.sleep(3)
         img_paths = []
+        # 玩家資訊1
         info_img = str(Path(out_path).with_name(f"{Path(out_path).stem}_info{Path(out_path).suffix}"))
-        self.action.screenshot(settings.PLAYER_INFO_REGION, window, info_img)
+        self.action.screenshot(s.PLAYER_INFO_REGION, window, info_img)
         img_paths.append(info_img)
+        # 玩家詳細資訊2
+        if hasattr(s, 'PLAYER_DETAILINFO_2_ABS') and hasattr(s, 'PLAYER_INFO_2_REGION'):
+            detail2_coord = c.to_relative(s.PLAYER_DETAILINFO_2_ABS)
+            self.action.click(detail2_coord, window)
+            time.sleep(2.5)
+            info2_img = str(Path(out_path).with_name(f"{Path(out_path).stem}_info2{Path(out_path).suffix}"))
+            self.action.screenshot(s.PLAYER_INFO_2_REGION, window, info2_img)
+            img_paths.append(info2_img)
+            # 玩家詳細資訊3
+            if hasattr(s, 'PLAYER_DETAILINFO_3_ABS') and hasattr(s, 'PLAYER_INFO_3_REGION'):
+                detail3_coord = c.to_relative(s.PLAYER_DETAILINFO_3_ABS)
+                self.action.click(detail3_coord, window)
+                time.sleep(1.0)
+                info3_img = str(Path(out_path).with_name(f"{Path(out_path).stem}_info3{Path(out_path).suffix}"))
+                self.action.screenshot(s.PLAYER_INFO_3_REGION, window, info3_img)
+                img_paths.append(info3_img)
+                # 關閉詳細資訊
+                if hasattr(s, 'PLAYER_DETAILINFO_CLOSE_ABS'):
+                    close_coord = c.to_relative(s.PLAYER_DETAILINFO_CLOSE_ABS)
+                    self.action.click(close_coord, window)
+                    time.sleep(0.3)
+        # 處理隊伍
         for i, team_coord in enumerate(team_coords, 1):
             self.action.click(team_coord, window)
             team_img = str(Path(out_path).with_name(f"{Path(out_path).stem}_team{i}{Path(out_path).suffix}"))
             self.action.screenshot(screenshot_region, window, team_img)
             img_paths.append(team_img)
-            time.sleep(getattr(settings, "ACTION_DELAY", 1.2))
+            time.sleep(getattr(s, "ACTION_DELAY", 1.2))
+        # 過濾掉 None 或不存在的檔案
+        img_paths = [p for p in img_paths if p and Path(p).exists()]
         self.stitcher.stitch(img_paths, out_path, direction="vertical")
         for p in img_paths:
             Path(p).unlink(missing_ok=True)
-        return None
+        return out_path
 
     def _notify(self: Self, img_path: str) -> None:
         notify_image(img_path)

@@ -1,42 +1,60 @@
 from typing import Any
 from nikke_cjjc_automator.controller.mode_strategy.mode import ModeStrategy
+from pathlib import Path
+import time
+from datetime import datetime
 
 class PredictMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
         c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
-        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, f"{automator.temp_dir}/p1.png")
+        temp_dir = automator.temp_dir
+        output_dir = Path(s.OUTPUT_DIR)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        p1_path = temp_dir / "p1.png"
+        p2_path = temp_dir / "p2.png"
+        out_path = output_dir / f"prediction-{now_str}.png"
+        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
         automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
-        import time
         time.sleep(1)
-        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, f"{automator.temp_dir}/p2.png")
-        out = f"{automator.temp_dir}/final1.png"
-        automator.stitcher.stitch([p1, p2], out, direction="horizontal", spacing=getattr(s, "HORIZONTAL_SPACING", 50))
-        automator._notify(out)
+        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
+        automator.stitcher.stitch([str(p1_path), str(p2_path)], str(out_path), direction="horizontal", spacing=getattr(s, "HORIZONTAL_SPACING", 50))
+        automator._notify(str(out_path))
 
 class ReviewMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
         c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
-        result_img = f"{automator.temp_dir}/result.png"
-        automator.action.screenshot(s.RESULT_SCREENSHOT_REGION, window, result_img)
-        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, f"{automator.temp_dir}/p1.png")
+        temp_dir = automator.temp_dir
+        output_dir = Path(s.OUTPUT_DIR)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        result_img_path = temp_dir / "result.png"
+        p1_path = temp_dir / "p1.png"
+        p2_path = temp_dir / "p2.png"
+        out_path = output_dir / f"review-{now_str}.png"
+        automator.action.screenshot(s.RESULT_SCREENSHOT_REGION, window, str(result_img_path))
+        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
         automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
-        import time
         time.sleep(1)
-        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, f"{automator.temp_dir}/p2.png")
-        out = f"{automator.temp_dir}/final2.png"
-        automator.stitcher.stitch([p1, result_img, p2], out, direction="horizontal", spacing=0, background_color=(255,255,255))
-        automator._notify(out)
+        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
+        automator.stitcher.stitch([str(p1_path), str(result_img_path), str(p2_path)], str(out_path), direction="horizontal", spacing=0, background_color=(255,255,255))
+        automator._notify(str(out_path))
 
 class AntiBuyMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
         c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
-        vote_img = f"{automator.temp_dir}/vote.png"
-        automator.action.screenshot(s.PEOPLE_VOTE_REGION, window, vote_img)
-        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, f"{automator.temp_dir}/p1.png")
+        temp_dir = automator.temp_dir
+        output_dir = Path(s.OUTPUT_DIR)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        vote_img_path = temp_dir / "vote.png"
+        p1_path = temp_dir / "p1.png"
+        p2_path = temp_dir / "p2.png"
+        out_path = output_dir / f"anti_buy-{now_str}.png"
+        automator.action.screenshot(s.PEOPLE_VOTE_REGION, window, str(vote_img_path))
+        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
         automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
-        import time
         time.sleep(1)
-        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, f"{automator.temp_dir}/p2.png")
-        out = f"{automator.temp_dir}/final3.png"
-        automator.stitcher.stitch([p1, vote_img, p2], out, direction="horizontal", spacing=0, background_color=(255,255,255))
-        automator._notify(out)
+        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
+        automator.stitcher.stitch([str(p1_path), str(vote_img_path), str(p2_path)], str(out_path), direction="horizontal", spacing=0, background_color=(255,255,255))
+        automator._notify(str(out_path))
