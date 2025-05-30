@@ -9,14 +9,14 @@ class HotkeyManager:
 
     def setup(self):
         hotkey = getattr(settings, "STOP_HOTKEY", "ctrl+c").lower()
-        logging.info(f"按下 {hotkey} 可以隨時停止腳本。")
+        logging.info(f"Press {hotkey} to stop the script at any time.")
         keyboard.add_hotkey(hotkey, lambda: self.stop())
 
     def stop(self):
-        logging.warning(f"偵測到停止熱鍵 {self.hotkey}！正在嘗試停止腳本...")
+        logging.warning(f"Stop hotkey {self.hotkey} detected! Attempting to stop the script...")
         self.stop_script = True
 
     def check(self):
         if self.stop_script:
-            logging.info("腳本已停止。")
+            logging.info("Script stopped.")
             raise SystemExit(0)

@@ -2,7 +2,7 @@ from ..config import settings
 from typing import Any
 
 class BaseAction:
-    """抽象化所有與視窗、點擊、截圖相關的共用邏輯"""
+    """Abstracts all shared logic related to window, clicking, and screenshotting."""
     def __init__(self, hotkey_mgr):
         self.hotkey_mgr = hotkey_mgr
 
@@ -29,7 +29,7 @@ class BaseAction:
         return (region_left, region_top, region_width, region_height)
 
 class ActionPerformer(BaseAction):
-    """負責點擊與截圖，繼承共用邏輯"""
+    """Handles clicking and screenshotting, inherits shared logic."""
     def click(self, rel_coord: Any, window: Any, delay: float = None):
         self.hotkey_mgr.check()
         import pyautogui, time, logging

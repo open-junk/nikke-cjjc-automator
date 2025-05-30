@@ -1,1 +1,1 @@
-# 將所有模式策略相關的抽象類別與實作集中於此
+# All abstract classes and implementations related to mode strategies are collected here

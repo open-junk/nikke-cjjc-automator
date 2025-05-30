@@ -3,22 +3,21 @@ import ctypes
 import time
 import logging
 
-def notify(msg: str, title: str = "操作完成"):
+def notify(msg: str, title: str = "Operation Completed"):
     MB_OK = 0x00000000
     MB_ICONINFORMATION = 0x00000040
     MB_SETFOREGROUND = 0x00010000
     MB_TOPMOST = 0x00040000
     time.sleep(0.5)
     try:
-        ctypes.windll.user32.SetForegroundWindow(ctypes.windll.user32.GetDesktopWindow())
         ctypes.windll.user32.MessageBoxW(None, msg, title, MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST)
     except Exception as e:
-        logging.error(f"顯示通知失敗: {e}")
+        logging.error(f"Failed to show notification: {e}")
 
 
-def notify_image(img_path: str, title: str = "操作完成"):
+def notify_image(img_path: str, title: str = "Operation Completed"):
     if Path(img_path).exists():
-        notify(f"完成！\n\n已存檔: {Path(img_path).name}", title)
+        notify(f"Done!\n\nSaved: {Path(img_path).name}", title)
     else:
-        logging.error(f"通知圖片不存在: {img_path}")
-        notify("通知圖片不存在。", "操作錯誤")
+        logging.error(f"Notification image does not exist: {img_path}")
+        notify("Notification image does not exist.", "Operation Error")

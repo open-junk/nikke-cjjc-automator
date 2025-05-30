@@ -1,19 +1,19 @@
-# 設定檔版本
+# Config file version
 SETTINGS_VERSION = "1.0.0"
 
-# 解析度與視窗
+# Resolution and window
 BASE_WIDTH = 3840
 BASE_HEIGHT = 2160
 WINDOW_TITLE = "NIKKE"
 STOP_HOTKEY = "ctrl+c"
 HORIZONTAL_SPACING = 50
 
-# 等待秒數
+# Delay seconds
 START_DELAY = 3.0
 ACTION_DELAY = 1.0
 INITIAL_PLAYER_DELAY = 2.0
 
-# 玩家座標
+# Player coordinates
 PLAYER1_COORD_ABS = [1671, 691]
 PLAYER2_COORD_ABS = [2175, 669]
 EXIT_COORD_ABS = [2370, 681]
@@ -25,54 +25,54 @@ TEAM_COORDS_ABS = [
     [2303, 1064]
 ]
 
-# 截圖區域 (主隊伍)
+# Screenshot region (main team)
 SCREENSHOT_LEFT_ABS = 1433
 SCREENSHOT_TOP_ABS = 1134
 SCREENSHOT_RIGHT_ABS = 2417
 SCREENSHOT_BOTTOM_ABS = 1530
-# SCREENSHOT_REGION 由程式自動計算
+# SCREENSHOT_REGION is auto-calculated by the program
 
-# 玩家資訊區域
+# Player info region
 PLAYER_INFO_LEFT_ABS = 1433
 PLAYER_INFO_TOP_ABS = 768
 PLAYER_INFO_RIGHT_ABS = 2417
 PLAYER_INFO_BOTTOM_ABS = 963
-# PLAYER_INFO_REGION 由程式自動計算
+# PLAYER_INFO_REGION is auto-calculated by the program
 
-# 詳細資訊點擊座標
+# Detail info click coordinates
 PLAYER_DETAILINFO_2_ABS = [1560, 866]
 PLAYER_DETAILINFO_3_ABS = [2200, 2000]
 PLAYER_DETAILINFO_CLOSE_ABS = [3500, 200]
 
-# 玩家資訊2區域
+# Player info 2 region
 PLAYER_INFO_2_LEFT_ABS = 1433
 PLAYER_INFO_2_TOP_ABS = 1344
 PLAYER_INFO_2_RIGHT_ABS = 2417
 PLAYER_INFO_2_BOTTOM_ABS = 1529
-# PLAYER_INFO_2_REGION 由程式自動計算
+# PLAYER_INFO_2_REGION is auto-calculated by the program
 
-# 玩家資訊3區域
+# Player info 3 region
 PLAYER_INFO_3_LEFT_ABS = 1433
 PLAYER_INFO_3_TOP_ABS = 1768
 PLAYER_INFO_3_RIGHT_ABS = 2417
 PLAYER_INFO_3_BOTTOM_ABS = 1850
-# PLAYER_INFO_3_REGION 由程式自動計算
+# PLAYER_INFO_3_REGION is auto-calculated by the program
 
-# 民意區域
+# People vote region
 PEOPLE_VOTE_LEFT_ABS = 1395
 PEOPLE_VOTE_TOP_ABS = 285
 PEOPLE_VOTE_RIGHT_ABS = 2433
 PEOPLE_VOTE_BOTTOM_ABS = 1944
-# PEOPLE_VOTE_REGION 由程式自動計算
+# PEOPLE_VOTE_REGION is auto-calculated by the program
 
-# Mode 2 專用座標
+# Mode 2 specific coordinates
 PLAYER1_COORD_ABS_M2 = [1540, 1083]
 PLAYER2_COORD_ABS_M2 = [2176, 1083]
 RESULT_SCREENSHOT_LEFT_ABS = 1600
 RESULT_SCREENSHOT_TOP_ABS = 958
 RESULT_SCREENSHOT_RIGHT_ABS = 2109
 RESULT_SCREENSHOT_BOTTOM_ABS = 1651
-# RESULT_SCREENSHOT_REGION 由程式自動計算
+# RESULT_SCREENSHOT_REGION is auto-calculated by the program
 
-# 合併圖輸出目錄
+# Output directory for merged images
 OUTPUT_DIR = "output_img"

@@ -6,7 +6,8 @@ from datetime import datetime
 
 class PredictMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
-        c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
+        # Unpack context
+        c, s, window, automator = ctx
         temp_dir = automator.temp_dir
         output_dir = Path(s.OUTPUT_DIR)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -14,16 +15,24 @@ class PredictMode(ModeStrategy):
         p1_path = temp_dir / "p1.png"
         p2_path = temp_dir / "p2.png"
         out_path = output_dir / f"prediction-{now_str}.png"
-        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
+        # Process player 1
+        automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
+        # Click exit to switch to player 2
         automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
         time.sleep(1)
-        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
-        automator.stitcher.stitch([str(p1_path), str(p2_path)], str(out_path), direction="horizontal", spacing=getattr(s, "HORIZONTAL_SPACING", 50))
+        # Process player 2
+        automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
+        # Stitch images horizontally
+        automator.stitcher.stitch([
+            str(p1_path),
+            str(p2_path)
+        ], str(out_path), direction="horizontal", spacing=getattr(s, "HORIZONTAL_SPACING", 50))
+        # Notify user
         automator._notify(str(out_path))
 
 class ReviewMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
-        c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
+        c, s, window, automator = ctx
         temp_dir = automator.temp_dir
         output_dir = Path(s.OUTPUT_DIR)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -32,17 +41,26 @@ class ReviewMode(ModeStrategy):
         p1_path = temp_dir / "p1.png"
         p2_path = temp_dir / "p2.png"
         out_path = output_dir / f"review-{now_str}.png"
+        # Screenshot result region
         automator.action.screenshot(s.RESULT_SCREENSHOT_REGION, window, str(result_img_path))
-        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
+        # Process player 1
+        automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
+        # Click exit to switch to player 2
         automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
         time.sleep(1)
-        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
-        automator.stitcher.stitch([str(p1_path), str(result_img_path), str(p2_path)], str(out_path), direction="horizontal", spacing=0, background_color=(255,255,255))
+        # Process player 2
+        automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
+        # Stitch images horizontally with result in the middle
+        automator.stitcher.stitch([
+            str(p1_path),
+            str(result_img_path),
+            str(p2_path)
+        ], str(out_path), direction="horizontal", spacing=0, background_color=(255,255,255))
         automator._notify(str(out_path))
 
 class AntiBuyMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
-        c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
+        c, s, window, automator = ctx
         temp_dir = automator.temp_dir
         output_dir = Path(s.OUTPUT_DIR)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -51,10 +69,19 @@ class AntiBuyMode(ModeStrategy):
         p1_path = temp_dir / "p1.png"
         p2_path = temp_dir / "p2.png"
         out_path = output_dir / f"anti_buy-{now_str}.png"
+        # Screenshot vote region
         automator.action.screenshot(s.PEOPLE_VOTE_REGION, window, str(vote_img_path))
-        p1 = automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
+        # Process player 1
+        automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
+        # Click exit to switch to player 2
         automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
         time.sleep(1)
-        p2 = automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
-        automator.stitcher.stitch([str(p1_path), str(vote_img_path), str(p2_path)], str(out_path), direction="horizontal", spacing=0, background_color=(255,255,255))
+        # Process player 2
+        automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
+        # Stitch images horizontally with vote in the middle
+        automator.stitcher.stitch([
+            str(p1_path),
+            str(vote_img_path),
+            str(p2_path)
+        ], str(out_path), direction="horizontal", spacing=0, background_color=(255,255,255))
         automator._notify(str(out_path))

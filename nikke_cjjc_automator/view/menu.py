@@ -1,17 +1,18 @@
 import sys
+import os
 import questionary
 from typing import Optional
 
 SELECT_MODE_CHOICES = [
-    "1: 買馬預測模式（請提前進入投注頁面）",
-    "2: 復盤模式（請提前進入應援結果顯示5隊勝負的頁面）",
-    "3: 反買模式（請提前進入投注頁面）",
+    "1: Prediction Mode (Please enter the betting page in advance)",
+    "2: Review Mode (Please enter the result page showing 5 teams in advance)",
+    "3: Anti-Buy Mode (Please enter the betting page in advance)",
 ]
 
 def select_mode() -> Optional[int]:
     try:
         label = questionary.select(
-            "请选择运行模式",
+            "Please select a run mode",
             choices=SELECT_MODE_CHOICES
         ).ask()
     except KeyboardInterrupt:

@@ -1,5 +1,5 @@
 class ImageStitcher:
-    """圖片拼接工具，抽象化水平與垂直拼接"""
+    """Image stitching utility, abstracts vertical and horizontal stitching"""
     def __init__(self, hotkey_mgr):
         self.hotkey_mgr = hotkey_mgr
 
@@ -8,9 +8,9 @@ class ImageStitcher:
         from PIL import Image
         from pathlib import Path
         import logging
-        # 強制檢查 image_paths 必須有有效圖片，否則直接報錯
+        # Force check: image_paths must contain valid images, otherwise raise error
         images = [Image.open(p) for p in image_paths]
-        # 直接使用呼叫端給的 output_path，不再搬移到 result_image
+        # Use the output_path provided by the caller directly, do not move to result_image
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         match direction:
@@ -33,7 +33,7 @@ class ImageStitcher:
                     x += img.width + spacing
                     img.close()
             case _:
-                logging.error(f"未知拼接方向: {direction}")
+                logging.error(f"Unknown stitching direction: {direction}")
                 return False
         stitched.save(output_path)
         return True

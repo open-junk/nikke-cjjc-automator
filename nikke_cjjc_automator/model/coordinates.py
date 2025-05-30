@@ -1,7 +1,7 @@
 from ..config import settings
 
 class CoordinateHelper:
-    """負責所有座標與比例換算"""
+    """Responsible for all coordinate and ratio conversions."""
     def __init__(self):
         self.base_width = settings.BASE_WIDTH
         self.base_height = settings.BASE_HEIGHT
@@ -13,7 +13,7 @@ class CoordinateHelper:
             case [(int() | float(), int() | float()), *_]:
                 return [(x / self.base_width, y / self.base_height) for x, y in abs_coords]
             case _:
-                raise TypeError("輸入必須是元組或列表")
+                raise TypeError("Input must be a tuple or list")
 
     def region_to_relative(self, left, top, right, bottom):
         return (

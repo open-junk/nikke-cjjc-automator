@@ -3,9 +3,9 @@ from pathlib import Path
 from dynaconf import Dynaconf
 import shutil
 
-SETTINGS_VERSION = "1.0.0"  # 與 settings.default.toml 同步
+SETTINGS_VERSION = "1.0.0"  # Keep in sync with settings.default.toml
 
-# 處理 PyInstaller onefile 模式下的 bundle 路徑
+# Handle bundle path for PyInstaller onefile mode
 if hasattr(sys, "_MEIPASS"):
     BUNDLE_DIR = Path(sys._MEIPASS)
     APP_ROOT = Path(sys.executable).parent
@@ -17,26 +17,26 @@ SETTINGS_PATH = APP_ROOT / "settings.toml"
 DEFAULT_SETTINGS_PATH = APP_ROOT / "settings.default.toml"
 BUNDLE_DEFAULT_SETTINGS_PATH = BUNDLE_DIR / "settings.default.toml"
 
-# 若 settings.toml 不存在，優先從 bundle 內複製 default
+# If settings.toml does not exist, copy default from bundle or app root
 if not SETTINGS_PATH.exists():
     if BUNDLE_DEFAULT_SETTINGS_PATH.exists():
         shutil.copy(BUNDLE_DEFAULT_SETTINGS_PATH, SETTINGS_PATH)
     elif DEFAULT_SETTINGS_PATH.exists():
         shutil.copy(DEFAULT_SETTINGS_PATH, SETTINGS_PATH)
     else:
-        raise FileNotFoundError(f"找不到 {BUNDLE_DEFAULT_SETTINGS_PATH} 或 {DEFAULT_SETTINGS_PATH}")
+        raise FileNotFoundError(f"Cannot find {BUNDLE_DEFAULT_SETTINGS_PATH} or {DEFAULT_SETTINGS_PATH}")
 
 settings = Dynaconf(
     envvar_prefix="NIKKE",
     settings_files=[str(SETTINGS_PATH)],
 )
 
-# 版本檢查
+# Version check
 user_ver = getattr(settings, "SETTINGS_VERSION", None)
 if user_ver != SETTINGS_VERSION:
-    print(f"[警告] 設定檔版本不符：目前 settings.toml 版本 {user_ver}，建議與程式版本 {SETTINGS_VERSION} 同步！")
+    print(f"[Warning] Config version mismatch: current settings.toml version {user_ver}, recommended to match program version {SETTINGS_VERSION}!")
 
-# settings.setenv("default")  # 強制切到 default 環境
+# settings.setenv("default")  # Force switch to default environment if needed
 
 def calc_region(left, top, right, bottom, base_width, base_height):
     if None in (left, top, right, bottom, base_width, base_height):
@@ -51,6 +51,7 @@ def calc_region(left, top, right, bottom, base_width, base_height):
     ]
 
 
+# Calculate and assign all region settings in relative coordinates
 settings.SCREENSHOT_REGION = calc_region(
     settings.get("SCREENSHOT_LEFT_ABS"),
     settings.get("SCREENSHOT_TOP_ABS"),

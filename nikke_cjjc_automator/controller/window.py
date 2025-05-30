@@ -27,7 +27,7 @@ class WindowManager:
                     return proc.info['pid']
             except Exception:
                 continue
-        raise RuntimeError(f"找不到進程 {self.process_name}")
+        raise RuntimeError(f"Process {self.process_name} not found")
 
     def _find_hwnd(self, pid: int) -> int:
         hwnds = []
@@ -39,7 +39,7 @@ class WindowManager:
                     return hwnd
             except Exception:
                 continue
-        raise RuntimeError(f"找不到 PID={pid} 的主視窗")
+        raise RuntimeError(f"Main window for PID={pid} not found")
 
     def _activate_hwnd(self, hwnd: int):
         if win32gui.IsIconic(hwnd):

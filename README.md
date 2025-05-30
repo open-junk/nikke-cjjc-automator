@@ -1,66 +1,64 @@
 # NIKKE CJJC Automator
 
-NIKKE CJJC Automator 是一款現代化、可維護、可擴充的 NIKKE 自動化腳本工具，支援多模式自動化、互動式 CLI、Windows 提權偵測、圖片暫存與合併、熱鍵安全終止等功能。
+NIKKE CJJC Automator is a modern, maintainable, and extensible automation tool for NIKKE, supporting multi-mode automation, interactive CLI, Windows privilege detection, image caching and merging, and safe hotkey termination.
 
-## 特色功能
-- 現代化 Python package 架構，分層（MVC）設計，型別提示
-- 設定集中於 `settings.default.toml`，自動管理與版本檢查，支援延遲參數
-- 互動式 CLI（Typer + Questionary），無參數自動進入選單
-- 多模式自動化（策略模式），主流程高度模組化
-- 圖片暫存與自動合併，支援自訂 output 目錄
-- 支援 PyInstaller 打包為單一 EXE，Windows 提權偵測與自動重啟
-- 熱鍵（含 Ctrl+C）與安全終止，所有提示統一 logging
-- 友善錯誤防呆，所有重要操作皆有提示
+## Features
+- Modern Python package architecture, MVC layered design, type hints
+- Centralized configuration in `settings.default.toml`, auto-management and version check, supports delay parameters
+- Interactive CLI (Typer + Questionary), auto menu if no arguments
+- Multi-mode automation (strategy pattern), highly modular main flow
+- Image caching and auto-merging, supports custom output directory
+- Supports PyInstaller onefile EXE, Windows privilege detection and auto-restart
+- Hotkey (including Ctrl+C) and safe termination, unified logging for all prompts
+- Friendly error handling, all important actions are prompted
 
-## 安裝與執行
+## Installation & Usage
 
-### 1. 下載可執行檔
-- 前往 [Releases](https://github.com/t106362512/releases) 下載最新的 `nikke-cjjc-automator.exe`
-- 直接雙擊執行，或於命令列執行
+### 1. Download Executable
+- Go to [Releases](https://github.com/t106362512/releases) and download the latest `nikke-cjjc-automator.exe`
+- Double-click to run, or run from command line
 
-### 2. 原始碼安裝
+### 2. Source Installation
 ```bash
-# 安裝依賴
 pdm install
-# 執行 CLI
 pdm run nikke-cjjc-automator
 ```
 
-### 3. 打包 EXE
+### 3. Build EXE
 ```bash
 pdm run nikke-cjjc-automator-build
 ```
 
-## 使用說明
-- 執行程式時，若未以系統管理員身份啟動，會自動開啟 `img/manual.jpg` 並彈窗提示
-- 進入互動式選單，選擇自動化模式
-- 可於 `settings.default.toml` 調整延遲、熱鍵、輸出目錄等參數
-- 執行過程可用 Ctrl+C 或自訂熱鍵安全終止
+## Usage
+- If not run as administrator, `img/manual.jpg` will be opened and a prompt will appear
+- Enter the interactive menu and select an automation mode
+- You can adjust delays, hotkeys, output directory, etc. in `settings.default.toml`
+- Use Ctrl+C or custom hotkey to safely terminate during execution
 
-## 設定檔說明
-- `settings.default.toml`：集中管理所有參數，首次執行會自動複製到用戶目錄
-- 重要參數：
-  - `START_DELAY`、`INITIAL_PLAYER_DELAY`、`ACTION_DELAY`：各階段延遲
-  - `OUTPUT_DIR`：圖片合併輸出目錄
-  - `STOP_HOTKEY`：自訂停止熱鍵（支援 ctrl+c）
+## Configuration
+- `settings.default.toml`: Centralized management of all parameters, auto-copied to user directory on first run
+- Key parameters:
+  - `START_DELAY`, `INITIAL_PLAYER_DELAY`, `ACTION_DELAY`: Delays for each stage
+  - `OUTPUT_DIR`: Output directory for merged images
+  - `STOP_HOTKEY`: Custom stop hotkey (supports ctrl+c)
 
-## 開發/架構
-- 主程式：`nikke_cjjc_automator/main.py`
-- CLI 入口：`nikke_cjjc_automator/cli.py`
-- 設定管理：`nikke_cjjc_automator/config.py`
-- 控制器/模型/視圖分層，易於擴充與維護
-- 圖片合併、熱鍵、模式策略皆為獨立模組
+## Development/Architecture
+- Main: `nikke_cjjc_automator/main.py`
+- CLI entry: `nikke_cjjc_automator/cli.py`
+- Config management: `nikke_cjjc_automator/config.py`
+- Controller/Model/View layers for easy extension and maintenance
+- Image merging, hotkey, and mode strategies are independent modules
 
 ## CI/CD
-- 已整合 GitHub Actions，自動打包 EXE 並上傳至 Release
-- 推送 tag（如 v1.0.0）自動觸發
+- Integrated with GitHub Actions, auto-builds EXE and uploads to Release
+- Pushing a tag (e.g. v1.0.0) triggers the workflow
 
-## 注意事項
-- 僅支援 Windows 系統
-- 執行時請確保有管理員權限
-- 若遇到防毒軟體誤報，請加入白名單
+## Notes
+- Windows only
+- Please run as administrator
+- If antivirus flags the program, add it to the whitelist
 
 ---
 
-如有問題或建議，歡迎於 GitHub Issue 回報。
+For questions or suggestions, please open a GitHub Issue.
 

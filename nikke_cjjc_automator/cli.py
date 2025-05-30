@@ -15,10 +15,10 @@ def main_cli():
     app()
 
 @app.command()
-def run(mode: int = typer.Option(None, help="運行模式: 1=預測, 2=復盤, 3=反買")):
+def run(mode: int = typer.Option(None, help="Run mode: 1=Prediction, 2=Review, 3=Anti-Buy")):
     """
-    NIKKE 自動化腳本 CLI
-    若未指定 mode，將進入互動式選單。
+    NIKKE Automation Script CLI
+    If mode is not specified, the interactive menu will be shown.
     """
     if isinstance(mode, tuple) or mode is None:
         mode = NikkeAutomator.select_mode()
