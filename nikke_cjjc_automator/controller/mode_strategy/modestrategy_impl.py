@@ -7,7 +7,7 @@ from datetime import datetime
 class PredictMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
         # Unpack context
-        c, s, window, automator = ctx
+        c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
         temp_dir = automator.temp_dir
         output_dir = Path(s.OUTPUT_DIR)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -32,7 +32,7 @@ class PredictMode(ModeStrategy):
 
 class ReviewMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
-        c, s, window, automator = ctx
+        c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
         temp_dir = automator.temp_dir
         output_dir = Path(s.OUTPUT_DIR)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -60,7 +60,7 @@ class ReviewMode(ModeStrategy):
 
 class AntiBuyMode(ModeStrategy):
     def run(self, ctx: Any) -> None:
-        c, s, window, automator = ctx
+        c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
         temp_dir = automator.temp_dir
         output_dir = Path(s.OUTPUT_DIR)
         output_dir.mkdir(parents=True, exist_ok=True)
