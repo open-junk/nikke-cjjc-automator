@@ -137,7 +137,12 @@ class NikkeAutomator:
             manual_path = NikkeAutomator.get_manual_path()
             if manual_path.exists():
                 os.startfile(manual_path)
-                notify("請以系統管理員身份執行本程式，已自動開啟操作說明圖片。\n\n關閉本視窗後，將自動以管理員身份重新啟動。", "需要系統管理員權限")
+                notify(
+            """請以系統管理員身份執行本程式，已自動開啟操作說明圖片。
+關閉本視窗後，將自動以管理員身份重新啟動。
+
+若以系統管理員身份執行本程式後(雙擊或cli模式)，將不會出現此訊息。
+            """, "需要系統管理員權限")
             args = ' '.join([shlex.quote(str(script))] + [shlex.quote(str(a)) for a in sys.argv[1:]])
             ctypes.windll.shell32.ShellExecuteW(
                 None, "runas", exe, args, None, 1
