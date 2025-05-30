@@ -20,7 +20,6 @@ def run(
     )
 ):
     """運行 NIKKE CJJC 自動化腳本。"""
-    print(f"[DEBUG] CLI run() called, mode = {mode}")
     main(mode)
 
 if __name__ == "__main__":

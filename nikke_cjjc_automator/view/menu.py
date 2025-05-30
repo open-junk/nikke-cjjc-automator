@@ -2,7 +2,6 @@ import questionary
 from typing import Optional
 
 def select_mode() -> Optional[int]:
-    print("[DEBUG] select_mode() called")
     return int(questionary.select(
         "請選擇運行模式:",
         choices=[

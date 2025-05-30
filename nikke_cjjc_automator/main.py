@@ -42,13 +42,16 @@ class NikkeAutomator:
 
     def run(self: Self, mode: int) -> None:
         import shutil, time, logging
+        s = settings
+        # 執行前延遲提示
+        logging.info(f"[START_DELAY] 啟動前等待 {getattr(s, 'START_DELAY', 3.0)} 秒...")
+        time.sleep(getattr(s, "START_DELAY", 3.0))
         self.mode = mode
         self.hotkey_mgr.setup()
         self.temp_dir.mkdir(parents=True, exist_ok=True)
         window = self.window_mgr.find_and_activate()
         logging.info(f"視窗已激活: {window.title}")
         c = self.coord
-        s = settings
         try:
             ctx = {
                 'coord': c,
@@ -72,8 +75,9 @@ class NikkeAutomator:
         from pathlib import Path
         c = self.coord
         s = self.config if hasattr(self, 'config') else __import__('nikke_cjjc_automator.config', fromlist=['settings']).settings
+        logging.info(f"[INITIAL_PLAYER_DELAY] 玩家初始點擊後等待 {getattr(s, 'INITIAL_PLAYER_DELAY', 2.0)} 秒...")
         self.action.click(player_coord, window)
-        time.sleep(3)
+        time.sleep(getattr(s, "INITIAL_PLAYER_DELAY", 2.0))
         img_paths = []
         # 玩家資訊1
         info_img = str(Path(out_path).with_name(f"{Path(out_path).stem}_info{Path(out_path).suffix}"))
@@ -143,10 +147,8 @@ class NikkeAutomator:
 # 供 CLI 直接調用
 
 def main(mode: int | None = None) -> None:
-    print(f"[DEBUG] main() called, mode = {mode}")
     logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
     NikkeAutomator.ensure_admin()
     if mode is None:
-        print("[DEBUG] main() calling select_mode()...")
         mode = NikkeAutomator.select_mode()
     NikkeAutomator().run(mode)

@@ -36,13 +36,7 @@ user_ver = getattr(settings, "SETTINGS_VERSION", None)
 if user_ver != SETTINGS_VERSION:
     print(f"[警告] 設定檔版本不符：目前 settings.toml 版本 {user_ver}，建議與程式版本 {SETTINGS_VERSION} 同步！")
 
-settings.setenv("default")  # 強制切到 default 環境
-
-# Debug print for troubleshooting
-print("[DEBUG] settings.toml path:", SETTINGS_PATH)
-print("[DEBUG] BASE_WIDTH:", settings.get("BASE_WIDTH"))
-print("[DEBUG] SCREENSHOT_LEFT_ABS:", settings.get("SCREENSHOT_LEFT_ABS"))
-
+# settings.setenv("default")  # 強制切到 default 環境
 
 def calc_region(left, top, right, bottom, base_width, base_height):
     if None in (left, top, right, bottom, base_width, base_height):
