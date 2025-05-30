@@ -63,11 +63,10 @@ class NikkeAutomator:
                 'automator': self
             }
             # Executing the corresponding mode strategy
-            match mode:
-                case 1 | 2 | 3:
-                    ModeContext(self.mode_map[mode]).execute(ctx)
-                case _:
-                    raise ValueError(f"Unknown mode: {mode}")
+            if mode in (1, 2, 3):
+                ModeContext(self.mode_map[mode]).execute(ctx)
+            else:
+                raise ValueError(f"Unknown mode: {mode}")
         finally:
             # Cleanup
             shutil.rmtree(self.temp_dir, ignore_errors=True)

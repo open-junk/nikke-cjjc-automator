@@ -22,11 +22,15 @@ dependencies = [
 nikke-cjjc-automator = "nikke_cjjc_automator.cli:app"
 
 [tool.pdm.scripts]
-nikke-cjjc-automator-build = "pyinstaller nikke_cjjc_automator/cli.py --onefile --add-data \"settings.default.toml;.\" --add-data \"img/manual.jpg;.\" --name nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller"
+nikke-cjjc-automator-build = "pyinstaller src/nikke_cjjc_automator/cli.py --onefile --add-data \"settings.default.toml;.\" --add-data \"img/manual.jpg;.\" --name nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller"
 
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
+
+[tool.pdm.build]
+package-dir = "src"
+includes = ["src/nikke_cjjc_automator"]
 
 [tool.dynaconf]
 settings_files = ["settings.toml"]
