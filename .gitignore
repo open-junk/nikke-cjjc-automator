@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+*.log
+
+# VSCode
+.vscode/
+
+# PDM
+.venv/
+pdm.lock
+.pdm-python
+
+# Build artifacts
+dist/
+build/
+*.spec
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PyInstaller
+*.exe
+*.manifest
+*.pkg
+*.toc
+*.pyz
+*.zip
+localpycs/
+
+# User
+*.swp
+*.swo
+
+# Project specific
+settings.local.toml
+
+# Ignore test output
+.coverage
+htmlcov/
+
+# Ignore backup
+*~

@@ -1,0 +1,32 @@
+[project]
+name = "nikke-cjjc-automator"
+version = "0.1.0"
+description = "NIKKE CJJC Automator CLI tool"
+authors = [{name = "Your Name", email = "your@email.com"}]
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "typer[all]",
+    "pygetwindow",
+    "pyautogui",
+    "Pillow",
+    "keyboard",
+    "psutil",
+    "pywin32",
+    "dynaconf",
+    "questionary",
+    "pyinstaller>=5.13.2,<6.0.0",
+]
+
+[project.scripts]
+nikke-cjjc-automator = "nikke_cjjc_automator.cli:app"
+
+[tool.pdm.scripts]
+nikke-cjjc-automator-build = "pyinstaller nikke_cjjc_automator/cli.py --onefile --add-data \"settings.toml;.\" --name nikke-cjjc-automator"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.dynaconf]
+settings_files = ["settings.toml"]
