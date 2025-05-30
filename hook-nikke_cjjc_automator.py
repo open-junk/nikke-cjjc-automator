@@ -27,12 +27,17 @@ setup(
 
 hiddenimports = collect_submodules(PACKAGE_NAME) + [
     "typer",
+    "PIL",
+    "PIL.Image",
     "pygetwindow",
     "pyautogui",
-    "Pillow",
-    "keyboard",
     "psutil",
     "pywin32",
+    "win32gui",
+    "win32process",
+    "win32con",
+    "keyboard",
+    "shutil",
     "dynaconf",
     "questionary",
 ]
