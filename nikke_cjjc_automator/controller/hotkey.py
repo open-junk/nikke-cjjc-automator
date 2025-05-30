@@ -1,4 +1,3 @@
-from typing import Callable
 import logging
 import keyboard
 from ..config import settings
@@ -9,8 +8,9 @@ class HotkeyManager:
         self.hotkey: str = settings.STOP_HOTKEY
 
     def setup(self):
-        logging.info(f"按下 {self.hotkey} 可以隨時停止腳本。")
-        keyboard.add_hotkey(self.hotkey, self.stop)
+        hotkey = getattr(settings, "STOP_HOTKEY", "ctrl+c").lower()
+        logging.info(f"按下 {hotkey} 可以隨時停止腳本。")
+        keyboard.add_hotkey(hotkey, lambda: self.stop())
 
     def stop(self):
         logging.warning(f"偵測到停止熱鍵 {self.hotkey}！正在嘗試停止腳本...")

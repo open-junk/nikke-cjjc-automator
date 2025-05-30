@@ -1,26 +1,32 @@
+import sys
 import typer
-from nikke_cjjc_automator.main import main
+from nikke_cjjc_automator.main import main, NikkeAutomator
 from nikke_cjjc_automator.view.menu import select_mode
 
-app = typer.Typer()
+app = typer.Typer(add_completion=False, no_args_is_help=False)
 
-# 取得互動式選單的說明文字
-try:
-    MODE_HELP = "\n".join([
-        f"{val}: {label}" for label, val in select_mode.__defaults__[0]["choices"]
-    ])
-except Exception:
-    MODE_HELP = None
+def main_cli():
+    NikkeAutomator.ensure_admin()
+    # 若沒有任何有效參數（不含 -/-- 或數字），直接進入互動式選單
+    args = [a for a in sys.argv[1:] if not a.endswith('.exe')]
+    if not args or not any(a.startswith('-') or a.isdigit() for a in args):
+        mode = NikkeAutomator.select_mode()
+        main(mode)
+        return
+    app()
 
 @app.command()
-def run(
-    mode: int = typer.Option(
-        1,
-        help=f"運行模式：\n{MODE_HELP}\n(預設 1)" if MODE_HELP else "運行模式 (預設 1)"
-    )
-):
-    """運行 NIKKE CJJC 自動化腳本。"""
+def run(mode: int = typer.Option(None, help="運行模式: 1=預測, 2=復盤, 3=反買")):
+    """
+    NIKKE 自動化腳本 CLI
+    若未指定 mode，將進入互動式選單。
+    """
+    if isinstance(mode, tuple) or mode is None:
+        mode = NikkeAutomator.select_mode()
     main(mode)
 
 if __name__ == "__main__":
-    app()
+    try:
+        main_cli()
+    except KeyboardInterrupt:
+        sys.exit(0)
