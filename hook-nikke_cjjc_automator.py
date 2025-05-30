@@ -12,11 +12,16 @@ if sys.platform == 'win32':
 else:
     extra_compile_args = ['-O3', '-march=native']
 
+extensions = cythonize(
+    [str(p) for p in Path(PACKAGE_NAME).rglob('*.py')],
+    compiler_directives={'language_level': "3", 'boundscheck': False, 'wraparound': False, 'cdivision': True, 'initializedcheck': False, 'infer_types': True}
+)
+
 for ext in extensions:
     ext.extra_compile_args = extra_compile_args
 
 setup(
-    ext_modules=cythonize([str(p) for p in Path(PACKAGE_NAME).rglob('*.py')], compiler_directives={'language_level': "3", 'boundscheck': False, 'wraparound': False, 'cdivision': True, 'initializedcheck': False, 'infer_types': True}),
+    ext_modules=cythonize(extensions),
     script_args=["build_ext", "--inplace"]
 )
 
