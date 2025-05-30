@@ -16,6 +16,7 @@ dependencies = [
     "dynaconf",
     "questionary",
     "pyinstaller>=5.13.2,<6.0.0",
+    "cython"
 ]
 
 [project.scripts]
@@ -23,6 +24,7 @@ nikke-cjjc-automator = "nikke_cjjc_automator.cli:app"
 
 [tool.pdm.scripts]
 nikke-cjjc-automator-build = "pyinstaller src/nikke_cjjc_automator/cli.py --onefile --add-data \"settings.default.toml;.\" --add-data \"img/manual.jpg;.\" --name nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller"
+nikke-cjjc-automator-build-pyd = "pyinstaller src/nikke_cjjc_automator/cli.py -F --additional-hooks-dir=. --add-data \"settings.default.toml;.\" --add-data \"img/manual.jpg;.\" -n nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller"
 
 [build-system]
 requires = ["pdm-backend"]

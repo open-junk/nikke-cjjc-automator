@@ -27,7 +27,7 @@ jobs:
         run: pdm install
 
       - name: Build EXE
-        run: pdm run nikke-cjjc-automator-build
+        run: pdm run nikke-cjjc-automator-build-pyd
 
       - name: Upload EXE to Release
         uses: softprops/action-gh-release@v2

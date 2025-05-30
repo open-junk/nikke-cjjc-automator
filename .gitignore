@@ -48,6 +48,8 @@ htmlcov/
 # Ignore backup
 *~
 
-# Ignore cython files in packages
-src\nikke_cjjc_automator\*.c
-src\nikke_cjjc_automator\**\*.c
+# Ignore cython files
+*.so
+*.c
+*.cpp
+*.h
