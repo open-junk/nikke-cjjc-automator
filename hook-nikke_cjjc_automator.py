@@ -20,4 +20,14 @@ setup(
     script_args=["build_ext", "--inplace"]
 )
 
-hiddenimports = collect_submodules(PACKAGE_NAME)
+hiddenimports = collect_submodules(PACKAGE_NAME) + [
+    "typer",
+    "pygetwindow",
+    "pyautogui",
+    "Pillow",
+    "keyboard",
+    "psutil",
+    "pywin32",
+    "dynaconf",
+    "questionary",
+]
