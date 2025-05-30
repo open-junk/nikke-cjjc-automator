@@ -6,7 +6,7 @@ authors = [{name = "Your Name", email = "your@email.com"}]
 readme = "README.md"
 requires-python = ">=3.11,<3.12"
 dependencies = [
-    "typer[all]",
+    "typer",
     "pygetwindow",
     "pyautogui",
     "Pillow",
@@ -22,7 +22,7 @@ dependencies = [
 nikke-cjjc-automator = "nikke_cjjc_automator.cli:app"
 
 [tool.pdm.scripts]
-nikke-cjjc-automator-build = "pyinstaller nikke_cjjc_automator/cli.py --onefile --add-data \"settings.default.toml;.\" --name nikke-cjjc-automator"
+nikke-cjjc-automator-build = "pyinstaller nikke_cjjc_automator/cli.py --onefile --add-data \"settings.default.toml;.\" --add-data \"img/manual.jpg;.\" --name nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller"
 
 [build-system]
 requires = ["pdm-backend"]

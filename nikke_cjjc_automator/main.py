@@ -5,7 +5,7 @@ from nikke_cjjc_automator.controller.action import ActionPerformer
 from nikke_cjjc_automator.controller.stitch import ImageStitcher
 from nikke_cjjc_automator.controller.hotkey import HotkeyManager
 from nikke_cjjc_automator.controller.window import WindowManager
-from nikke_cjjc_automator.view.notify import notify_image
+from nikke_cjjc_automator.view.notify import notify, notify_image
 from nikke_cjjc_automator.view.menu import select_mode
 from nikke_cjjc_automator.config import settings
 import sys
@@ -122,16 +122,28 @@ class NikkeAutomator:
         notify_image(img_path)
 
     @staticmethod
+    def get_manual_path():
+        if hasattr(sys, "_MEIPASS"):
+            return Path(sys._MEIPASS) / "manual.jpg"
+        else:
+            return Path(__file__).resolve().parent.parent / "img" / "manual.jpg"
+
+    @staticmethod
     def ensure_admin() -> None:
+        import shlex
         if sys.platform == 'win32' and not NikkeAutomator.is_admin():
-            import shlex
             exe = sys.executable
             script = Path(sys.argv[0]).resolve()
+            manual_path = NikkeAutomator.get_manual_path()
+            if manual_path.exists():
+                os.startfile(manual_path)
+                notify("請以系統管理員身份執行本程式，已自動開啟操作說明圖片。\n\n關閉本視窗後，將自動以管理員身份重新啟動。", "需要系統管理員權限")
             args = ' '.join([shlex.quote(str(script))] + [shlex.quote(str(a)) for a in sys.argv[1:]])
             ctypes.windll.shell32.ShellExecuteW(
                 None, "runas", exe, args, None, 1
             )
-            sys.exit(0)
+            # sys.exit(0)
+            sys.exit(1)
 
     @staticmethod
     def is_admin() -> bool:

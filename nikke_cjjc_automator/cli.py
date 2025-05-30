@@ -7,7 +7,6 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 
 def main_cli():
     NikkeAutomator.ensure_admin()
-    # 若沒有任何有效參數（不含 -/-- 或數字），直接進入互動式選單
     args = [a for a in sys.argv[1:] if not a.endswith('.exe')]
     if not args or not any(a.startswith('-') or a.isdigit() for a in args):
         mode = NikkeAutomator.select_mode()
