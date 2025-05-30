@@ -31,6 +31,7 @@ hiddenimports = collect_submodules(PACKAGE_NAME) + [
     "PIL.Image",
     "pygetwindow",
     "pyautogui",
+    "pyautogui._pyautogui_win",
     "psutil",
     "pywin32",
     "win32gui",
@@ -39,5 +40,7 @@ hiddenimports = collect_submodules(PACKAGE_NAME) + [
     "keyboard",
     "shutil",
     "dynaconf",
+    "dynaconf.loaders",
     "questionary",
+    "questionary.prompts",
 ]
