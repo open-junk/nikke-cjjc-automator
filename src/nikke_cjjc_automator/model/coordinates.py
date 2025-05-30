@@ -14,17 +14,19 @@ class CoordinateHelper:
         #         return [(x / self.base_width, y / self.base_height) for x, y in abs_coords]
         #     case _:
         #         raise TypeError("Input must be a tuple or list")
-        if isinstance(abs_coords, tuple) and len(abs_coords) == 2 and \
-              all(isinstance(coord, (int, float)) for coord in abs_coords):
+
+        if len(abs_coords) == 2 and all(isinstance(c, (int, float)) for c in abs_coords):
             return (abs_coords[0] / self.base_width, abs_coords[1] / self.base_height)
-        elif isinstance(abs_coords, list) and all(
-            isinstance(item, (tuple, list)) and len(item) == 2 and
-            all(isinstance(coord, (int, float)) for coord in item)
+
+        if isinstance(abs_coords, list) and all(
+            isinstance(item, (list, tuple)) and
+            len(item) == 2 and
+            all(isinstance(c, (int, float)) for c in item)
             for item in abs_coords
         ):
             return [(x / self.base_width, y / self.base_height) for x, y in abs_coords]
-        else:
-            raise TypeError("Input must be a tuple or list")
+
+        raise TypeError("Input must be a tuple or list of 2-number tuples")
 
     def region_to_relative(self, left, top, right, bottom):
         return (
