@@ -43,4 +43,5 @@ hiddenimports = collect_submodules(PACKAGE_NAME) + [
     "dynaconf.loaders",
     "questionary",
     "questionary.prompts",
+    "questionary.prompts.select",
 ]
