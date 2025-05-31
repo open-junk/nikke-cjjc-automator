@@ -32,7 +32,7 @@ jobs:
         with:
           version: latest
           files: |
-            dist/nikke_cjjc_automator.exe
+            dist/nikke-cjjc-automator.exe
           args: -9 --lzma
     
       - name: Upload EXE to Actions
