@@ -11,6 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install UPX  # pyinstaller will automatically use UPX if it's available (in $PATH)
+        uses: crazy-max/ghaction-upx@v3
+        with:
+          install-only: true
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -27,13 +32,13 @@ jobs:
       - name: Build EXE
         run: pdm run nikke-cjjc-automator-build-pyd
 
-      - name: Compress executable with UPX
-        uses: crazy-max/ghaction-upx@v3
-        with:
-          version: latest
-          files: |
-            dist/nikke-cjjc-automator.exe
-          args: -9 -f --lzma
+    #   - name: Compress executable with UPX
+    #     uses: crazy-max/ghaction-upx@v3
+    #     with:
+    #       version: latest
+    #       files: |
+    #         dist/nikke-cjjc-automator.exe
+    #       args: -9 -f --lzma
     
       - name: Upload EXE to Actions
         uses: actions/upload-artifact@v4
