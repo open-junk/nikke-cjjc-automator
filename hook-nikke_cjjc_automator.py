@@ -6,19 +6,20 @@ import sys
 
 PACKAGE_NAME = 'src/nikke_cjjc_automator'
 
-extra_compile_args = []
-if sys.platform == 'win32':
-    extra_compile_args = ['/O2']
-else:
-    extra_compile_args = ['-O3', '-march=native']
+# extra_compile_args = []
+# if sys.platform == 'win32':
+#     extra_compile_args = ['/O2']
+# else:
+#     extra_compile_args = ['-O3', '-march=native']
 
 extensions = cythonize(
     [str(p) for p in Path(PACKAGE_NAME).rglob('*.py')],
-    compiler_directives={'language_level': "3", 'boundscheck': False, 'wraparound': False, 'cdivision': True, 'initializedcheck': False, 'infer_types': True}
+    compiler_directives={'language_level': "3", 'infer_types': True}
+    # compiler_directives={'language_level': "3", 'boundscheck': False, 'wraparound': False, 'cdivision': True, 'initializedcheck': False, 'infer_types': True}
 )
 
-for ext in extensions:
-    ext.extra_compile_args = extra_compile_args
+# for ext in extensions:
+#     ext.extra_compile_args = extra_compile_args
 
 setup(
     ext_modules=cythonize(extensions),
