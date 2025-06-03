@@ -92,14 +92,14 @@ class NikkeAutomator:
         if hasattr(s, 'PLAYER_DETAILINFO_2_ABS') and hasattr(s, 'PLAYER_INFO_2_REGION'):
             detail2_coord = c.to_relative(s.PLAYER_DETAILINFO_2_ABS)
             self.action.click(detail2_coord, window)
-            time.sleep(2.5)
+            time.sleep(getattr(s, "PROCESS_PLAYER_DELAY", 1.0))
             info2_img = str(Path(out_path).with_name(f"{Path(out_path).stem}_info2{Path(out_path).suffix}"))
             self.action.screenshot(s.PLAYER_INFO_2_REGION, window, info2_img)
             img_paths.append(info2_img)
             if hasattr(s, 'PLAYER_DETAILINFO_3_ABS') and hasattr(s, 'PLAYER_INFO_3_REGION'):
                 detail3_coord = c.to_relative(s.PLAYER_DETAILINFO_3_ABS)
                 self.action.click(detail3_coord, window)
-                time.sleep(1.0)
+                time.sleep(getattr(s, "PROCESS_PLAYER_DELAY", 1.0))
                 info3_img = str(Path(out_path).with_name(f"{Path(out_path).stem}_info3{Path(out_path).suffix}"))
                 self.action.screenshot(s.PLAYER_INFO_3_REGION, window, info3_img)
                 img_paths.append(info3_img)
