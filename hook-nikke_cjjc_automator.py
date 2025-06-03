@@ -53,3 +53,17 @@ hiddenimports = collect_submodules(PACKAGE_NAME) + [
     "questionary.prompts",
     "questionary.prompts.select",
 ]
+
+excludes = [
+    'tests', 
+    'docutils', 
+    'unittest', 
+    'pylint', 
+    'pyinstaller',
+    'pkg_resources',
+]
+
+datas = [
+    ('settings.default.toml', '.'),
+    ('img/manual.jpg', '.')
+]
