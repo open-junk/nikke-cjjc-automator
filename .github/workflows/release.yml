@@ -6,14 +6,21 @@ on:
       - 'v*.*.*'
   workflow_dispatch:
 
+env:
+  INSTALL_UPX: ${{ vars.INSTALL_UPX }}
+
 jobs:
   build:
     runs-on: windows-latest
     steps:
+      - name: Set default variable
+        run: echo "INSTALL_UPX=${INSTALL_UPX:-false}" >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install UPX  # pyinstaller will automatically use UPX if it's available (in $PATH)
+        if: env.INSTALL_UPX == 'true'
         uses: crazy-max/ghaction-upx@v3
         with:
           install-only: true
