@@ -161,8 +161,8 @@ class NikkeAutomator:
     def select_mode() -> int:
         return select_mode()
 
-# Main function for CLI execution
-def main(mode: int | None = None) -> None:
+# Entry function for CLI execution
+def entry(mode: int | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
     NikkeAutomator.ensure_admin()
     if mode is None:

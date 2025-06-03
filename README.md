@@ -43,7 +43,7 @@ pdm run nikke-cjjc-automator-build
   - `STOP_HOTKEY`: Custom stop hotkey (supports ctrl+c)
 
 ## Development/Architecture
-- Main: `nikke_cjjc_automator/main.py`
+- Core: `nikke_cjjc_automator/core.py`
 - CLI entry: `nikke_cjjc_automator/cli.py`
 - Config management: `nikke_cjjc_automator/config.py`
 - Controller/Model/View layers for easy extension and maintenance
