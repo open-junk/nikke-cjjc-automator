@@ -1,6 +1,6 @@
 [project]
 name = "nikke-cjjc-automator"
-version = "1.1.5"
+version = "1.1.6"
 description = "NIKKE CJJC Automator CLI tool"
 authors = [{name = "cwang", email = "cwang@cwang.cc"}]
 readme = "README.md"
@@ -23,7 +23,7 @@ dependencies = [
 nikke-cjjc-automator = "nikke_cjjc_automator.cli:app"
 
 [tool.pdm.scripts]
-nikke-cjjc-automator-build = "pyinstaller src/nikke_cjjc_automator/cli.py -F --name nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller --version-file version_info.txt"
+nikke-cjjc-automator-build = "pyinstaller src/nikke_cjjc_automator/cli.py -F --name nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller --version-file version_info.txt --add-data settings.default.toml;. --add-data img/manual.jpg;."
 nikke-cjjc-automator-build-pyd = "pyinstaller src/nikke_cjjc_automator/cli.py -F --additional-hooks-dir=. -n nikke-cjjc-automator --exclude-module pkg_resources --exclude-module pyinstaller --version-file version_info.txt"
 
 [build-system]
