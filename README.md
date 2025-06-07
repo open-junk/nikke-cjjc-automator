@@ -2,7 +2,9 @@
 
 > **Special Thanks:** This project is based on [entishl/nikke-CArena-Helper](https://github.com/entishl/nikke-CArena-Helper).
 
-NIKKE CJJC Automator is a modern, maintainable, and extensible automation tool for NIKKE, supporting multi-mode automation, interactive CLI, Windows privilege detection, image caching and merging, and safe hotkey termination.
+This project is an automation script for the PC game *NIKKE: Goddess of Victory*, helping players efficiently capture, log, and review data in modes like Champion Arena.
+
+![manual](img/manual.jpg)
 
 ## Features
 
