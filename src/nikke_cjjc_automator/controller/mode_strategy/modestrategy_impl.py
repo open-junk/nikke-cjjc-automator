@@ -76,3 +76,29 @@ class AntiBuyMode(ModeStrategy):
             str(p2_path)
         ], str(out_path), direction="horizontal", spacing=0, background_color=(255,255,255))
         automator._notify(str(out_path))
+
+class LeaguePredictMode(ModeStrategy):
+    def run(self, ctx: Any) -> None:
+        c, s, window, automator = ctx['coord'], ctx['settings'], ctx['window'], ctx['automator']
+        temp_dir = automator.temp_dir
+        output_dir = Path(s.OUTPUT_DIR)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        # Get player entry coordinates (should be 4 entries)
+        player_entries, player_img_paths = [
+            c.to_relative(getattr(s, "PLAYER1_COORD_ABS_M4", [1480, 860])),
+            c.to_relative(getattr(s, "PLAYER2_COORD_ABS_M4", [1480, 1130])),
+            c.to_relative(getattr(s, "PLAYER3_COORD_ABS_M4", [1480, 1400])),
+            c.to_relative(getattr(s, "PLAYER4_COORD_ABS_M4", [1480, 1670]))
+        ], []
+        for i, player_entry_rel in enumerate(player_entries):
+            player_num = i + 1
+            player_img_path = temp_dir / f"league_player_{player_num}.png"
+            # Process each player (simulate _process_player, but can be customized)
+            automator._process_player(window, player_entry_rel, c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(player_img_path))
+            player_img_paths.append(str(player_img_path))
+        # Output file
+        out_path = output_dir / f"league-predict-{now_str}.png"
+        # Stitch all 4 player images horizontally
+        automator.stitcher.stitch(player_img_paths, str(out_path), direction="horizontal", spacing=getattr(s, "HORIZONTAL_SPACING", 20))
+        automator._notify(str(out_path))

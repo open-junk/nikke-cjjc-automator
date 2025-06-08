@@ -14,7 +14,7 @@ import ctypes
 import tempfile
 from dataclasses import dataclass, field
 from typing import Self, Any, Optional
-from nikke_cjjc_automator.controller.mode_strategy.modestrategy_impl import PredictMode, ReviewMode, AntiBuyMode
+from nikke_cjjc_automator.controller.mode_strategy.modestrategy_impl import PredictMode, ReviewMode, AntiBuyMode, LeaguePredictMode
 from nikke_cjjc_automator.controller.mode_strategy.mode import ModeContext
 from pathlib import Path
 
@@ -41,6 +41,7 @@ class NikkeAutomator:
             1: PredictMode(),
             2: ReviewMode(),
             3: AntiBuyMode(),
+            4: LeaguePredictMode(),
         }
 
     def run(self: Self, mode: int) -> None:
@@ -63,7 +64,7 @@ class NikkeAutomator:
                 'automator': self
             }
             # Executing the corresponding mode strategy
-            if mode in (1, 2, 3):
+            if mode in (1, 2, 3, 4):
                 ModeContext(self.mode_map[mode]).execute(ctx)
             else:
                 raise ValueError(f"Unknown mode: {mode}")
