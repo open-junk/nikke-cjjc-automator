@@ -12,11 +12,12 @@ class WindowManager:
     def __init__(self, hotkey_mgr: HotkeyManager):
         self.hotkey_mgr = hotkey_mgr
         self.process_name: str = getattr(settings, "PROCESS_NAME", "nikke.exe")
-        self.window_title: str = getattr(settings, "WINDOW_TITLE", "NIKKE")
+        # Use a list of possible window titles for auto-detection
+        self.window_titles = getattr(settings, "WINDOW_TITLES", ["NIKKE", "勝利女神：妮姬", "胜利女神：新的希望"])
 
     def find_and_activate(self):
         self.hotkey_mgr.check()
-        logging.info(f"Searching for process '{self.process_name}' and window with title '{self.window_title}'...")
+        logging.info(f"Searching for process '{self.process_name}' and possible window titles: {self.window_titles}")
         delay = getattr(settings, "ACTION_DELAY", 1.2)
         # 1. Find process PID(s)
         found_pids = []
@@ -36,23 +37,28 @@ class WindowManager:
         target_pid = found_pids[0]
         logging.info(f"Found target process PID: {target_pid}")
         self.hotkey_mgr.check()
-        # 2. Find HWND by PID and window title
+        # 2. Find HWND by PID and try all possible window titles
         hwnds = []
         win32gui.EnumWindows(lambda hwnd, param: param.append(hwnd), hwnds)
-        target_title = self.window_title.lower().strip()
         target_hwnd = None
-        for hwnd in hwnds:
-            try:
-                _, pid = win32process.GetWindowThreadProcessId(hwnd)
-                title = win32gui.GetWindowText(hwnd).lower().strip()
-                if pid == target_pid and title == target_title and win32gui.IsWindowVisible(hwnd):
-                    logging.info(f"Found window: HWND={hwnd}, Title='{win32gui.GetWindowText(hwnd)}'")
-                    target_hwnd = hwnd
-                    break
-            except Exception:
-                continue
+        matched_title = None
+        for title_candidate in self.window_titles:
+            target_title = title_candidate.lower().strip()
+            for hwnd in hwnds:
+                try:
+                    _, pid = win32process.GetWindowThreadProcessId(hwnd)
+                    title = win32gui.GetWindowText(hwnd).lower().strip()
+                    if pid == target_pid and title == target_title and win32gui.IsWindowVisible(hwnd):
+                        logging.info(f"Found window: HWND={hwnd}, Title='{win32gui.GetWindowText(hwnd)}'")
+                        target_hwnd = hwnd
+                        matched_title = win32gui.GetWindowText(hwnd)
+                        break
+                except Exception:
+                    continue
+            if target_hwnd:
+                break
         if target_hwnd is None:
-            logging.error(f"Error: Found process PID {target_pid}, but no visible main window with title '{self.window_title}'.")
+            logging.error(f"Error: Found process PID {target_pid}, but no visible main window with any of the titles: {self.window_titles}.")
             return None
         self.hotkey_mgr.check()
         # 3. Activate window
@@ -71,9 +77,9 @@ class WindowManager:
             time.sleep(delay)
             foreground_hwnd = win32gui.GetForegroundWindow()
             if foreground_hwnd == target_hwnd:
-                logging.info(f"Window HWND {target_hwnd} ('{win32gui.GetWindowText(target_hwnd)}') successfully activated and brought to foreground.")
+                logging.info(f"Window HWND {target_hwnd} ('{matched_title}') successfully activated and brought to foreground.")
             else:
-                logging.warning(f"Tried to activate window HWND {target_hwnd} ('{win32gui.GetWindowText(target_hwnd)}'), but foreground is HWND {foreground_hwnd} ('{win32gui.GetWindowText(foreground_hwnd)}'). Script will continue, but may operate on the wrong window.")
+                logging.warning(f"Tried to activate window HWND {target_hwnd} ('{matched_title}'), but foreground is HWND {foreground_hwnd} ('{win32gui.GetWindowText(foreground_hwnd)}'). Script will continue, but may operate on the wrong window.")
             try:
                 window = pygetwindow.Win32Window(target_hwnd)
                 return window
