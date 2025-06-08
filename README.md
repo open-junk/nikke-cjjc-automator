@@ -41,16 +41,16 @@ pdm run nikke-cjjc-automator-build
 
 - If not run as administrator, `img/manual.jpg` will be opened and a prompt will appear
 - Enter the interactive menu and select an automation mode
-- You can adjust delays, hotkeys, output directory, etc. in `settings.default.toml`
+- You can adjust delays, hotkeys, output directory, etc. in `settings.toml` or `settings.default.toml`
 - Use Ctrl+C or custom hotkey to safely terminate during execution
 
 ## Configuration
 
-- `settings.default.toml`: Centralized management of all parameters, auto-copied to user directory on first run
+- On first run, the program automatically copies the built-in `settings.default.toml` to `settings.toml` in the app's working directory and always loads settings from there.
 - Key parameters:
-  - `START_DELAY`, `INITIAL_PLAYER_DELAY`, `ACTION_DELAY`: Delays for each stage
-  - `OUTPUT_DIR`: Output directory for merged images
-  - `STOP_HOTKEY`: Custom stop hotkey (supports ctrl+c)
+  - `START_DELAY`, `INITIAL_PLAYER_DELAY`, `ACTION_DELAY`: Stage delays
+  - `OUTPUT_DIR`: Output directory for merged images (default: `output_img` in the app's working directory)
+  - `STOP_HOTKEY`: Custom stop hotkey (e.g. ctrl+c)
 
 ## Development/Architecture
 
