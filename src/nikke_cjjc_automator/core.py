@@ -74,7 +74,7 @@ class NikkeAutomator:
             import keyboard
             keyboard.remove_hotkey(s.STOP_HOTKEY)
 
-    def _process_player(self: Self, window, player_coord, team_coords, screenshot_region, out_path):
+    def _process_player(self: Self, window, player_coord, team_coords, screenshot_region, out_path, exit_player_view=True) -> str:
         import time, logging
         from pathlib import Path
         c = self.coord
@@ -119,6 +119,8 @@ class NikkeAutomator:
         self.stitcher.stitch(img_paths, out_path, direction="vertical")
         for p in img_paths:
             Path(p).unlink(missing_ok=True)
+        if exit_player_view:
+            self.action.click(c.to_relative(getattr(s, 'EXIT_COORD_ABS', [2370, 681])), window)
         return out_path
 
     def _notify(self: Self, img_path: str) -> None:
