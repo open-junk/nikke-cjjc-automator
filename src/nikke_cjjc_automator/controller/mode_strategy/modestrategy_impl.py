@@ -17,8 +17,6 @@ class PredictMode(ModeStrategy):
         out_path = output_dir / f"prediction-{now_str}.png"
         # Process player 1
         automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
-        # Click exit to switch to player 2
-        automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
         # Process player 2
         automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
         # Stitch images horizontally
@@ -44,8 +42,6 @@ class ReviewMode(ModeStrategy):
         automator.action.screenshot(s.RESULT_SCREENSHOT_REGION, window, str(result_img_path))
         # Process player 1
         automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
-        # Click exit to switch to player 2
-        automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
         # Process player 2
         automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS_M2), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
         # Stitch images horizontally with result in the middle
@@ -71,8 +67,6 @@ class AntiBuyMode(ModeStrategy):
         automator.action.screenshot(s.PEOPLE_VOTE_REGION, window, str(vote_img_path))
         # Process player 1
         automator._process_player(window, c.to_relative(s.PLAYER1_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p1_path))
-        # Click exit to switch to player 2
-        automator.action.click(c.to_relative(s.EXIT_COORD_ABS), window)
         # Process player 2
         automator._process_player(window, c.to_relative(s.PLAYER2_COORD_ABS), c.to_relative(s.TEAM_COORDS_ABS), s.SCREENSHOT_REGION, str(p2_path))
         # Stitch images horizontally with vote in the middle
