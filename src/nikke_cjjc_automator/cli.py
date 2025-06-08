@@ -29,3 +29,6 @@ if __name__ == "__main__":
         entry_cli()
     except KeyboardInterrupt:
         sys.exit(0)
+    except Exception as e:
+        NikkeAutomator.notify_error(str(e))
+        raise

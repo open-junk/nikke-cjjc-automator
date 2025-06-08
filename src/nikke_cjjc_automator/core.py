@@ -127,6 +127,10 @@ class NikkeAutomator:
         notify_image(img_path)
 
     @staticmethod
+    def notify_error(error_msg: str) -> None:
+        notify(f"An error occurred: {error_msg}", "Error")
+
+    @staticmethod
     def get_manual_path():
         # Determining the manual path based on the execution environment
         if hasattr(sys, "_MEIPASS"):
