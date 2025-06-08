@@ -4,7 +4,7 @@ from dynaconf import Dynaconf
 import shutil
 import logging
 
-SETTINGS_VERSION = "1.0.0"  # Keep in sync with settings.default.toml
+SETTINGS_VERSION = "1.1.0"  # Keep in sync with settings.default.toml
 
 # Handle bundle path for PyInstaller onefile mode
 if hasattr(sys, "_MEIPASS"):

@@ -1,10 +1,10 @@
 # Config file version
-SETTINGS_VERSION = "1.0.0"
+SETTINGS_VERSION = "1.1.0"
 
 # Resolution and window
 BASE_WIDTH = 3840
 BASE_HEIGHT = 2160
-WINDOW_TITLE = "NIKKE"
+WINDOW_TITLES = ["NIKKE", "勝利女神：妮姬", "胜利女神：新的希望"]
 PROCESS_NAME = "nikke.exe"
 STOP_HOTKEY = "ctrl+c"
 HORIZONTAL_SPACING = 50
@@ -75,6 +75,12 @@ RESULT_SCREENSHOT_TOP_ABS = 958
 RESULT_SCREENSHOT_RIGHT_ABS = 2109
 RESULT_SCREENSHOT_BOTTOM_ABS = 1651
 # RESULT_SCREENSHOT_REGION is auto-calculated by the program
+
+# Mode 4 specific coordinates
+PLAYER1_COORD_ABS_M4 = [1480, 860]
+PLAYER2_COORD_ABS_M4 = [1480, 1130]
+PLAYER3_COORD_ABS_M4 = [1480, 1400]
+PLAYER4_COORD_ABS_M4 = [1480, 1670]
 
 # Output directory for merged images
 OUTPUT_DIR = "output_img"
