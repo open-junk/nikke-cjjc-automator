@@ -7,7 +7,7 @@ from nikke_cjjc_automator.controller.hotkey import HotkeyManager
 from nikke_cjjc_automator.controller.window import WindowManager
 from nikke_cjjc_automator.view.notify import notify, notify_image
 from nikke_cjjc_automator.view.menu import select_mode
-from nikke_cjjc_automator.config import settings
+from nikke_cjjc_automator.config import settings, ensure_settings
 import sys
 import os
 import ctypes
@@ -163,10 +163,16 @@ class NikkeAutomator:
     def select_mode() -> int:
         return select_mode()
 
+    @staticmethod
+    def ensure_settings() -> None:
+        """Ensure settings file exists and is up-to-date."""
+        ensure_settings()
+
 # Entry function for CLI execution
 def entry(mode: int | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
     NikkeAutomator.ensure_admin()
+    NikkeAutomator.ensure_settings()
     if mode is None:
         mode = NikkeAutomator.select_mode()
     NikkeAutomator().run(mode)

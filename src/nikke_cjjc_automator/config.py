@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 from dynaconf import Dynaconf
 import shutil
+import logging
 
 SETTINGS_VERSION = "1.0.0"  # Keep in sync with settings.default.toml
 
@@ -17,26 +18,34 @@ SETTINGS_PATH = APP_ROOT / "settings.toml"
 DEFAULT_SETTINGS_PATH = APP_ROOT / "settings.default.toml"
 BUNDLE_DEFAULT_SETTINGS_PATH = BUNDLE_DIR / "settings.default.toml"
 
-# If settings.toml does not exist, copy default from bundle or app root
-if not SETTINGS_PATH.exists():
-    if BUNDLE_DEFAULT_SETTINGS_PATH.exists():
-        shutil.copy(BUNDLE_DEFAULT_SETTINGS_PATH, SETTINGS_PATH)
-    elif DEFAULT_SETTINGS_PATH.exists():
-        shutil.copy(DEFAULT_SETTINGS_PATH, SETTINGS_PATH)
-    else:
-        raise FileNotFoundError(f"Cannot find {BUNDLE_DEFAULT_SETTINGS_PATH} or {DEFAULT_SETTINGS_PATH}")
-
 settings = Dynaconf(
     envvar_prefix="NIKKE",
     settings_files=[str(SETTINGS_PATH)],
 )
 
-# Version check
-user_ver = getattr(settings, "SETTINGS_VERSION", None)
-if user_ver != SETTINGS_VERSION:
-    print(f"[Warning] Config version mismatch: current settings.toml version {user_ver}, recommended to match program version {SETTINGS_VERSION}!")
+def ensure_settings_file():
+    """Ensure settings.toml exists, copying from default if needed."""
+    if not SETTINGS_PATH.exists():
+        if BUNDLE_DEFAULT_SETTINGS_PATH.exists():
+            logging.info(f"Copying default settings from {BUNDLE_DEFAULT_SETTINGS_PATH} to {SETTINGS_PATH}")
+            shutil.copy(BUNDLE_DEFAULT_SETTINGS_PATH, SETTINGS_PATH)
+        elif DEFAULT_SETTINGS_PATH.exists():
+            logging.info(f"Copying default settings from {DEFAULT_SETTINGS_PATH} to {SETTINGS_PATH}")
+            shutil.copy(DEFAULT_SETTINGS_PATH, SETTINGS_PATH)
+        else:
+            raise FileNotFoundError(f"Cannot find {BUNDLE_DEFAULT_SETTINGS_PATH} or {DEFAULT_SETTINGS_PATH}")
 
-# settings.setenv("default")  # Force switch to default environment if needed
+def check_settings_version():
+    """Check if the user's settings.toml version matches the required version."""
+    user_ver = getattr(settings, "SETTINGS_VERSION", None)
+    if user_ver != SETTINGS_VERSION:
+        logging.warning(f"settings.toml version {user_ver} does not match required version {SETTINGS_VERSION}.\n"
+              f"To auto-apply the latest settings, delete your settings.toml and restart the program.")
+
+def ensure_settings():
+    """Ensure settings file exists and is up-to-date."""
+    ensure_settings_file()
+    check_settings_version()
 
 def calc_region(left, top, right, bottom, base_width, base_height):
     if None in (left, top, right, bottom, base_width, base_height):
