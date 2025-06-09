@@ -62,50 +62,52 @@ def calc_region(left, top, right, bottom, base_width, base_height):
 
 # Calculate and assign all region settings in relative coordinates
 settings.SCREENSHOT_REGION = calc_region(
-    settings.get("SCREENSHOT_LEFT_ABS"),
-    settings.get("SCREENSHOT_TOP_ABS"),
-    settings.get("SCREENSHOT_RIGHT_ABS"),
-    settings.get("SCREENSHOT_BOTTOM_ABS"),
-    settings.get("BASE_WIDTH"),
-    settings.get("BASE_HEIGHT"),
+    getattr(settings, "SCREENSHOT_LEFT_ABS", 1433),
+    getattr(settings, "SCREENSHOT_TOP_ABS", 1134),
+    getattr(settings, "SCREENSHOT_RIGHT_ABS", 2417),
+    getattr(settings, "SCREENSHOT_BOTTOM_ABS", 1530),
+    getattr(settings, "BASE_WIDTH", 3840),
+    getattr(settings, "BASE_HEIGHT", 2160),
 )
 settings.PLAYER_INFO_REGION = calc_region(
-    settings.get("PLAYER_INFO_LEFT_ABS"),
-    settings.get("PLAYER_INFO_TOP_ABS"),
-    settings.get("PLAYER_INFO_RIGHT_ABS"),
-    settings.get("PLAYER_INFO_BOTTOM_ABS"),
-    settings.get("BASE_WIDTH"),
-    settings.get("BASE_HEIGHT"),
+    getattr(settings, "PLAYER_INFO_LEFT_ABS", 1433),
+    getattr(settings, "PLAYER_INFO_TOP_ABS", 768),
+    getattr(settings, "PLAYER_INFO_RIGHT_ABS", 2417),
+    getattr(settings, "PLAYER_INFO_BOTTOM_ABS", 963),
+    getattr(settings, "BASE_WIDTH", 3840),
+    getattr(settings, "BASE_HEIGHT", 2160),
 )
 settings.PLAYER_INFO_2_REGION = calc_region(
-    settings.get("PLAYER_INFO_2_LEFT_ABS"),
-    settings.get("PLAYER_INFO_2_TOP_ABS"),
-    settings.get("PLAYER_INFO_2_RIGHT_ABS"),
-    settings.get("PLAYER_INFO_2_BOTTOM_ABS"),
-    settings.get("BASE_WIDTH"),
-    settings.get("BASE_HEIGHT"),
+    getattr(settings, "PLAYER_INFO_2_LEFT_ABS", 1433),
+    getattr(settings, "PLAYER_INFO_2_TOP_ABS", 1344),
+    getattr(settings, "PLAYER_INFO_2_RIGHT_ABS", 2417),
+    getattr(settings, "PLAYER_INFO_2_BOTTOM_ABS", 1529),
+    getattr(settings, "BASE_WIDTH", 3840),
+    getattr(settings, "BASE_HEIGHT", 2160),
 )
 settings.PLAYER_INFO_3_REGION = calc_region(
-    settings.get("PLAYER_INFO_3_LEFT_ABS"),
-    settings.get("PLAYER_INFO_3_TOP_ABS"),
-    settings.get("PLAYER_INFO_3_RIGHT_ABS"),
-    settings.get("PLAYER_INFO_3_BOTTOM_ABS"),
-    settings.get("BASE_WIDTH"),
-    settings.get("BASE_HEIGHT"),
+    getattr(settings, "PLAYER_INFO_3_LEFT_ABS", 1433),
+    getattr(settings, "PLAYER_INFO_3_TOP_ABS", 1768),
+    getattr(settings, "PLAYER_INFO_3_RIGHT_ABS", 2417),
+    getattr(settings, "PLAYER_INFO_3_BOTTOM_ABS", 1850),
+    getattr(settings, "BASE_WIDTH", 3840),
+    getattr(settings, "BASE_HEIGHT", 2160),
 )
 settings.PEOPLE_VOTE_REGION = calc_region(
-    settings.get("PEOPLE_VOTE_LEFT_ABS"),
-    settings.get("PEOPLE_VOTE_TOP_ABS"),
-    settings.get("PEOPLE_VOTE_RIGHT_ABS"),
-    settings.get("PEOPLE_VOTE_BOTTOM_ABS"),
-    settings.get("BASE_WIDTH"),
-    settings.get("BASE_HEIGHT"),
+    getattr(settings, "PEOPLE_VOTE_LEFT_ABS", 1395),
+    getattr(settings, "PEOPLE_VOTE_TOP_ABS", 285),
+    getattr(settings, "PEOPLE_VOTE_RIGHT_ABS", 2433),
+    getattr(settings, "PEOPLE_VOTE_BOTTOM_ABS", 1944),
+    getattr(settings, "BASE_WIDTH", 3840),
+    getattr(settings, "BASE_HEIGHT", 2160),
 )
 settings.RESULT_SCREENSHOT_REGION = calc_region(
-    settings.get("RESULT_SCREENSHOT_LEFT_ABS"),
-    settings.get("RESULT_SCREENSHOT_TOP_ABS"),
-    settings.get("RESULT_SCREENSHOT_RIGHT_ABS"),
-    settings.get("RESULT_SCREENSHOT_BOTTOM_ABS"),
-    settings.get("BASE_WIDTH"),
-    settings.get("BASE_HEIGHT"),
+    getattr(settings, "RESULT_SCREENSHOT_LEFT_ABS", 1600),
+    getattr(settings, "RESULT_SCREENSHOT_TOP_ABS", 958),
+    getattr(settings, "RESULT_SCREENSHOT_RIGHT_ABS", 2109),
+    getattr(settings, "RESULT_SCREENSHOT_BOTTOM_ABS", 1651),
+    getattr(settings, "BASE_WIDTH", 3840),
+    getattr(settings, "BASE_HEIGHT", 2160),
 )
+
+ensure_settings_file()
