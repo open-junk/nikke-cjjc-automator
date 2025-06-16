@@ -1,5 +1,6 @@
 import sys
 import typer
+import traceback
 from nikke_cjjc_automator.core import entry, NikkeAutomator
 from nikke_cjjc_automator.view.menu import select_mode
 
@@ -30,5 +31,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         sys.exit(0)
     except Exception as e:
+        traceback.print_exc()
         NikkeAutomator.notify_error(str(e))
+        input("Press Enter to exit...")
         raise
