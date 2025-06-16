@@ -1,12 +1,13 @@
-from ..config import settings
+from ..controller.hotkey import HotkeyManager
 from typing import Any
 
 class BaseAction:
     """Abstracts all shared logic related to window, clicking, and screenshotting."""
-    def __init__(self, hotkey_mgr):
+    def __init__(self, settings: Any, hotkey_mgr: HotkeyManager):
+        self.settings = settings
         self.hotkey_mgr = hotkey_mgr
 
-    def _get_window_rect(self, window):
+    def _get_window_rect(self, window: Any) -> tuple[int, int, int, int]:
         hwnd = window._hWnd
         from win32gui import GetClientRect, ClientToScreen
         left, top, right, bottom = GetClientRect(hwnd)
@@ -37,7 +38,7 @@ class ActionPerformer(BaseAction):
         logging.info(f"Click at {x},{y}")
         pyautogui.moveTo(x, y, duration=0.2)
         pyautogui.click(x, y)
-        time.sleep(delay or getattr(settings, "ACTION_DELAY", 1.2))
+        time.sleep(delay or getattr(self.settings, "ACTION_DELAY", 1.2))
 
     def screenshot(self, rel_region: Any, window: Any, filename: str):
         self.hotkey_mgr.check()

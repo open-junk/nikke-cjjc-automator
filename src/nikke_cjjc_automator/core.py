@@ -22,7 +22,7 @@ from pathlib import Path
 class NikkeAutomator:
     # Defining attributes with default factories for complex types
     hotkey_mgr: HotkeyManager = field(default_factory=HotkeyManager)
-    coord: CoordinateHelper = field(default_factory=CoordinateHelper)
+    coord: CoordinateHelper = field(init=False)
     window_mgr: WindowManager = field(init=False)
     action: ActionPerformer = field(init=False)
     stitcher: ImageStitcher = field(init=False)
@@ -32,8 +32,9 @@ class NikkeAutomator:
 
     def __post_init__(self: Self) -> None:
         # Initializing managers and creating temp directory
-        self.window_mgr = WindowManager(self.hotkey_mgr)
-        self.action = ActionPerformer(self.hotkey_mgr)
+        self.coord = CoordinateHelper(settings)
+        self.window_mgr = WindowManager(settings, self.hotkey_mgr)
+        self.action = ActionPerformer(settings, self.hotkey_mgr)
         self.stitcher = ImageStitcher(self.hotkey_mgr)
         self.temp_dir = Path(tempfile.gettempdir()) / "nikke_cjjc_automator"
         # Mapping mode numbers to mode strategies

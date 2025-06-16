@@ -1,10 +1,10 @@
-from ..config import settings
+from typing import Any
 
 class CoordinateHelper:
     """Responsible for all coordinate and ratio conversions."""
-    def __init__(self):
-        self.base_width = settings.BASE_WIDTH
-        self.base_height = settings.BASE_HEIGHT
+    def __init__(self, settings: Any):
+        self.base_width = getattr(settings, "BASE_WIDTH", 3840)
+        self.base_height = getattr(settings, "BASE_HEIGHT", 2160)
 
     def to_relative(self, abs_coords):
         # match abs_coords:

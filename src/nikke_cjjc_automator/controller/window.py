@@ -5,12 +5,13 @@ import win32gui
 import win32process
 import win32con
 import pygetwindow
-from ..config import settings
+from typing import Any
 from .hotkey import HotkeyManager
 
 class WindowManager:
-    def __init__(self, hotkey_mgr: HotkeyManager):
+    def __init__(self, settings: Any, hotkey_mgr: HotkeyManager):
         self.hotkey_mgr = hotkey_mgr
+        self.settings = settings
         self.process_name: str = getattr(settings, "PROCESS_NAME", "nikke.exe")
         # Use a list of possible window titles for auto-detection
         self.window_titles = getattr(settings, "WINDOW_TITLES", ["NIKKE", "勝利女神：妮姬", "胜利女神：新的希望"])
@@ -18,7 +19,7 @@ class WindowManager:
     def find_and_activate(self):
         self.hotkey_mgr.check()
         logging.info(f"Searching for process '{self.process_name}' and possible window titles: {self.window_titles}")
-        delay = getattr(settings, "ACTION_DELAY", 1.2)
+        delay = getattr(self.settings, "ACTION_DELAY", 1.2)
         # 1. Find process PID(s)
         found_pids = []
         for proc in psutil.process_iter(['pid', 'name']):
