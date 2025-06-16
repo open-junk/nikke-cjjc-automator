@@ -52,7 +52,7 @@ class NikkeAutomator:
         logging.info(f"[START_DELAY] Waiting {getattr(s, 'START_DELAY', 3.0)} seconds before starting...")
         time.sleep(getattr(s, "START_DELAY", 3.0))
         self.mode = mode
-        self.hotkey_mgr.setup()
+        self.hotkey_mgr.setup(getattr(s, "STOP_HOTKEY", "ctrl+c").lower())
         self.temp_dir.mkdir(parents=True, exist_ok=True)
         window = self.window_mgr.find_and_activate()
         logging.info(f"Window activated: {window.title}")
@@ -65,16 +65,14 @@ class NikkeAutomator:
                 'automator': self
             }
             # Executing the corresponding mode strategy
-            if mode in (1, 2, 3, 4):
+            if mode in self.mode_map:
                 ModeContext(self.mode_map[mode]).execute(ctx)
             else:
                 raise ValueError(f"Unknown mode: {mode}")
         finally:
-            # Cleanup
             shutil.rmtree(self.temp_dir, ignore_errors=True)
             logging.info(f"Cleaned up {self.temp_dir}")
-            import keyboard
-            keyboard.remove_hotkey(s.STOP_HOTKEY)
+            self.hotkey_mgr.remove()
 
     def _process_player(self: Self, window, player_coord, team_coords, screenshot_region, out_path, exit_player_view=True) -> str:
         import time, logging
