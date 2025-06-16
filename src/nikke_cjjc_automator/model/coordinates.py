@@ -29,6 +29,10 @@ class CoordinateHelper:
         raise TypeError("Input must be a tuple or list of 2-number tuples")
 
     def region_to_relative(self, left, top, right, bottom):
+        if None in (left, top, right, bottom):
+            raise ValueError(
+                f"calc_region got None: {left=}, {top=}, {right=}, {bottom=}"
+            )
         return (
             left / self.base_width,
             top / self.base_height,
