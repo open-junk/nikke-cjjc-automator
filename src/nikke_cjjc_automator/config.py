@@ -35,6 +35,8 @@ def ensure_settings_file():
             shutil.copy(DEFAULT_SETTINGS_PATH, SETTINGS_PATH)
         else:
             raise FileNotFoundError(f"Cannot find {BUNDLE_DEFAULT_SETTINGS_PATH} or {DEFAULT_SETTINGS_PATH}")
+        return False
+    return True
 
 def check_settings_version():
     """Check if the user's settings.toml version matches the required version."""
@@ -45,9 +47,9 @@ def check_settings_version():
 
 def ensure_settings():
     """Ensure settings file exists and is up-to-date."""
-    ensure_settings_file()
-    check_settings_version()
-    settings.reload()        
+    if(ensure_settings_file()):
+        check_settings_version()
+    settings.reload()
 
 ch = CoordinateHelper(settings)
 
@@ -88,5 +90,3 @@ settings.RESULT_SCREENSHOT_REGION = ch.region_to_relative(
     getattr(settings, "RESULT_SCREENSHOT_RIGHT_ABS", 2109),
     getattr(settings, "RESULT_SCREENSHOT_BOTTOM_ABS", 1651),
 )
-
-ensure_settings_file()
